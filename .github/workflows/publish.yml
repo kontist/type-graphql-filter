@@ -1,0 +1,33 @@
+name: Publish on tag
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: "https://registry.npmjs.org"
+      - name: install aws cli
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
+      - name: npm install, build and test
+        run: |
+          npm ci
+          npm run build --if-present
+          npm test
+      - name: setup git
+        run: |
+          git config --global user.email "developer@kontist.com"
+          git config --global user.name "GitHub"
+      - name: npm publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

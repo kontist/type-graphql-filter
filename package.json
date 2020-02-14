@@ -1,0 +1,30 @@
+{
+  "name": "type-graphql-filter",
+  "version": "0.1.0",
+  "description": "Filter decorator for type-graphql",
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
+  "repository": "https://github.com/kontist/type-graphql-filter.git",
+  "author": "Kontist GmbH",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run lint && npm run build && mocha --recursive 'dist/tests/**/*.spec.js'",
+    "cover": "nyc npm run test",
+    "lint": "tslint --fix --project ."
+  },
+  "dependencies": {
+    "graphql": "^14.5.8",
+    "type-graphql": "^0.17.6"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.5",
+    "@types/jsdom": "^12.2.4",
+    "@types/mocha": "^5.2.7",
+    "@types/sinon": "^7.5.0",
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
+  }
+}

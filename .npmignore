@@ -1,0 +1,14 @@
+.github
+lib
+node_modules/
+.gitignore
+tsconfig.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea
+.DS_Store
+.vscode/
+!.vscode/launch.json
+dist/tests
+.env
