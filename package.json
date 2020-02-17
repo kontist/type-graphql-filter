@@ -25,6 +25,7 @@
     "expect": "^25.1.0",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
+    "reflect-metadata": "^0.1.13",
     "tslint": "^5.20.1",
     "typescript": "^3.7.2"
   }
