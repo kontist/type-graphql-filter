@@ -1,7 +1,7 @@
 # type-graphql-filter
 Filter decorator for [type-graphql](https://typegraphql.ml/).
 
-It will allow you to generate standardized filterable queries simply by decorating the fields that should be filterable with `@Filter`, and adding an `Arg` decorator to the relevant query.
+It will allow you to generate standardized filterable queries simply by decorating the fields that should be filterable with `@Filter`, and decorating the relevant query with an extra `@Arg` decorator.
 
 The input types for your schema will be generated automatically based on the name of your type-graphql `ObjectType`.
 
@@ -40,7 +40,7 @@ import { generateFilterType } from "type-graphql-filter";
 
 @Resolver(of => Parent)
 export class ParentExamplesResolver {
-  @FieldResolver(type => Example[])
+  @FieldResolver(type => ExampleModel[])
   examples(
     @Root() parent: Parent,
 
