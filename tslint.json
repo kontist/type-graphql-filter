@@ -1,8 +1,12 @@
 {
   "extends": "tslint:latest",
   "rules": {
+    "ban-types": false,
     "interface-name": false,
     "interface-over-type-literal": false,
+    "max-classes-per-file": false,
+    "no-submodule-imports": false,
+    "no-console": [false],
     "variable-name": {
       "options": [
         "allow-leading-underscore"
