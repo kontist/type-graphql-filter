@@ -37,6 +37,7 @@ Then add the filter as an argument to your resolver.
 ```typescript
 import { Resolver, FieldResolver, Root, Arg } from "type-graphql";
 import { generateFilterType } from "type-graphql-filter";
+import { ExampleModel } from "./models";
 
 @Resolver(of => Parent)
 export class ParentExamplesResolver {
@@ -45,7 +46,7 @@ export class ParentExamplesResolver {
     @Root() parent: Parent,
 
     // add the filter here as parameter
-    @Arg("filter", generateFilterType(Example))
+    @Arg("filter", generateFilterType(ExampleModel))
     filter: any
 
   ) {
