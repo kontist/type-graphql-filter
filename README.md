@@ -1,5 +1,5 @@
 # type-graphql-filter
-Filter decorator for [type-graphql](https://typegraphql.ml/).
+Filter decorator for [type-graphql](https://typegraphql.com/).
 
 It will allow you to generate standardized filterable queries simply by decorating the fields that should be filterable with `@Filter`, and decorating the relevant query with an extra `@Arg` decorator.
 
