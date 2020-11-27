@@ -64,3 +64,20 @@ type ExampleFilter {
     ...
 }
 ```
+
+The goal of this module is to generate the filter types for your graphql schema, however it is not aware of your business logic, so what you do with the filter you received from the query is up to you.
+
+For a simplified example, you could consider writing such a function, passing it the filter object:
+
+```typescript
+const generateCondition = (filter) => {
+    for (const [filterKey, value] of Object.entries(filters)) {
+          const [field, operator] = filterKey.split("_");
+
+         // from that point on, if the filter in your query was { firstname_like: "john" } you have:
+         // - the name of the field as 'field' variable, i.e. "firstname"
+         // - the operator to filter this field as 'operator' variable, i.e. "like"
+         // - the value of the filter as 'value' variable, i.e. "john"
+    }
+}
+```
