@@ -1,6 +1,6 @@
 {
   "name": "type-graphql-filter",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Filter decorator for type-graphql",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
