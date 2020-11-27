@@ -9,13 +9,14 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "tsc",
-    "test": "npm run lint && npm run build && mocha --recursive 'dist/tests/**/*.spec.js'",
+    "test": "npm run lint && npm run build && ./node_modules/mocha/bin/mocha --recursive 'dist/tests/**/*.spec.js'",
     "cover": "nyc npm run test",
-    "lint": "tslint --fix --project ."
+    "lint": "./node_modules/tslint/bin/tslint --fix --project ."
   },
   "dependencies": {
-    "graphql": "^14.5.8",
-    "type-graphql": "^0.17.6"
+    "class-validator": "^0.12.2",
+    "graphql": "^15.4.0",
+    "type-graphql": "^1.1.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.5",
