@@ -24,7 +24,7 @@ export const createFilterType = (type: Function) => {
   const typeGraphQLMetadata = getTypeGraphQLMetadataStorage();
 
   const objectTypesList = typeGraphQLMetadata.objectTypes;
-  const graphQLModel = objectTypesList.find((ot) => ot.target === type);
+  const graphQLModel = objectTypesList.find((ot) => types.includes(ot.target) && (typeGraphQLMetadata.inputTypes.findIndex(it => it.name === (ot.name + "Filter")) < 0))
 
   if (!graphQLModel) {
     throw new Error(
