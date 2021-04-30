@@ -1,5 +1,5 @@
 import { Filter } from "./decorators";
-import { generateFilterType } from "./helpers";
+import { generateFilterType, createFilterType } from "./helpers";
 import { BaseOperator, FilterOperator } from "./types";
 
-export { BaseOperator, FilterOperator, Filter, generateFilterType };
+export { BaseOperator, FilterOperator, Filter, generateFilterType, createFilterType };
