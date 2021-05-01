@@ -12,7 +12,7 @@
         "test": "npm run lint && npm run build && ./node_modules/mocha/bin/mocha --recursive 'dist/tests/**/*.spec.js'",
         "cover": "nyc npm run test",
         "lint": "./node_modules/tslint/bin/tslint --fix --project .",
-        "install": "npm run build"
+        "prepare": "cd ./node_modules/type-graphql-filter && npm run build"
     },
     "dependencies": {
         "class-validator": "^0.12.2",
