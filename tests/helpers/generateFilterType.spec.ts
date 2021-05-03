@@ -45,11 +45,18 @@ describe("generateFilterType", () => {
       name: string;
     }
 
-    @ObjectType("SomeT",)
+    @ObjectType("SomeT")
     class TestFilterableType extends NamedFilterableType {
       @Field(type => String)
       @Filter(["ne"])
       test: string;
+    }
+
+    @ObjectType("AnotherQ")
+    class AnotherFilterableType extends FilterableType {
+      @Field(type => Int)
+      @Filter(["lt", "gt"], type => Int)
+      quantity: number;
     }
 
     @Resolver()
@@ -77,6 +84,14 @@ describe("generateFilterType", () => {
       ): TestFilterableType {
         return new TestFilterableType();
       }
+
+      @Query(() => TestFilterableType)
+      anotherQuery(
+        @Arg("filter", generateFilterType(AnotherFilterableType), { nullable: true })
+        filter: any
+      ): AnotherFilterableType {
+        return new AnotherFilterableType();
+      }
     }
 
     const schema = await buildSchema({
@@ -99,6 +114,20 @@ describe("generateFilterType", () => {
     ).type;
     expect(nameEqType.name).toEqual("String");
     expect(nameEqType.kind).toEqual(TypeKind.SCALAR);
+  }
+  const assertFilterFieldsQ = (type: any) => {
+
+    const quantityGtType = type.inputFields.find(
+      (field: IntrospectionNamedTypeRef) => field.name === "quantity_gt"
+    ).type;
+    expect(quantityGtType.name).toEqual("Int");
+    expect(quantityGtType.kind).toEqual(TypeKind.SCALAR);
+
+    const quantityLtType = type.inputFields.find(
+      (field: IntrospectionNamedTypeRef) => field.name === "quantity_lt"
+    ).type;
+    expect(quantityLtType.name).toEqual("Int");
+    expect(quantityLtType.kind).toEqual(TypeKind.SCALAR);
   }
   const assertFilterFieldsA = (type: any) => {
     const operatorFieldType = type.inputFields.find(
@@ -229,6 +258,39 @@ describe("generateFilterType", () => {
 
       assertFilterFieldsT(filterType);
       assertFilterFieldsN(filterType);
+      assertFilterFieldsA(filterType);
+    });
+  });
+
+  describe('quantity, inherited (amount, purpose)', () => {
+    it("should generate a proper condition type", () => {
+      const conditionType = schemaIntrospection.types.find(
+        type => type.name === "AnotherQCondition"
+      ) as IntrospectionInputObjectType;
+
+      expect(conditionType.inputFields.length).toEqual(7);
+
+      assertFilterFieldsQ(conditionType);
+      assertFilterFieldsA(conditionType);
+    });
+    it("should generate a proper filter type", () => {
+      const filterType = schemaIntrospection.types.find(
+        type => type.name === "AnotherQFilter"
+      ) as IntrospectionInputObjectType;
+
+      expect(filterType.inputFields.length).toEqual(8);
+
+      const conditionsFieldType = (filterType as any).inputFields.find(
+        (field: IntrospectionNamedTypeRef) => field.name === "conditions"
+      ).type;
+      expect(conditionsFieldType.kind).toEqual(TypeKind.LIST);
+      expect(conditionsFieldType.ofType.kind).toEqual(TypeKind.NON_NULL);
+      const conditionsItemFieldType = (conditionsFieldType.ofType)
+        .ofType as IntrospectionInputObjectType;
+      expect(conditionsItemFieldType.kind).toEqual(TypeKind.INPUT_OBJECT);
+      expect(conditionsItemFieldType.name).toEqual("AnotherQCondition");
+
+      assertFilterFieldsQ(filterType);
       assertFilterFieldsA(filterType);
     });
   });
