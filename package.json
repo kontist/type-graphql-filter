@@ -11,7 +11,8 @@
         "build": "tsc",
         "test": "npm run lint && npm run build && ./node_modules/mocha/bin/mocha --recursive 'dist/tests/**/*.spec.js'",
         "cover": "nyc npm run test",
-        "lint": "./node_modules/tslint/bin/tslint --fix --project ."
+        "lint": "./node_modules/tslint/bin/tslint --fix --project .",
+        "prepare": "npm run build || exit 0"
     },
     "dependencies": {
         "class-validator": "^0.12.2",
