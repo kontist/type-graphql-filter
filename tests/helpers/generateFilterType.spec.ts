@@ -324,7 +324,8 @@ describe("generateFilterType", () => {
       assertFilterFieldsQ(filterType);
       assertFilterFieldsA(filterType);
     });
-
+  });
+  describe("hierarchy lookups", () => {
     it("finding correct model in hierarchy", () => {
       const name = "L";
       const conditionType = schemaIntrospection.types.find(
