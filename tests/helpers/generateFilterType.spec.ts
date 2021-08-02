@@ -59,6 +59,16 @@ describe("generateFilterType", () => {
       quantity: number;
     }
 
+    @ObjectType()
+    class B {
+      @Field(type => String)
+      @Filter(["eq"])
+      test: "test";
+    }
+    @ObjectType()
+    class H extends B { }
+    @ObjectType()
+    class L extends H { }
     @Resolver()
     class SampleResolver {
       @Query(() => FilterableType)
@@ -94,8 +104,29 @@ describe("generateFilterType", () => {
       }
     }
 
+    @Resolver()
+    class BHLResolver {
+
+      @Query(() => FilterableType)
+      lQuery(
+        @Arg("filter", generateFilterType(L), { nullable: true })
+        filter: any
+      ): L {
+        return new L();
+      }
+
+      @Query(() => FilterableType)
+      hQuery(
+        @Arg("filter", generateFilterType(H), { nullable: true })
+        filter: any
+      ): H {
+        return new H();
+      }
+
+    }
+
     const schema = await buildSchema({
-      resolvers: [SampleResolver]
+      resolvers: [SampleResolver, BHLResolver]
     });
     const result = await graphql(schema, getIntrospectionQuery());
     schemaIntrospection = (result as any).data.__schema as IntrospectionSchema;
@@ -292,6 +323,18 @@ describe("generateFilterType", () => {
 
       assertFilterFieldsQ(filterType);
       assertFilterFieldsA(filterType);
+    });
+
+    it("finding correct model in hierarchy", () => {
+      const name = "L";
+      const conditionType = schemaIntrospection.types.find(
+        type => type.name === `${name}Condition`
+      ) as IntrospectionInputObjectType;
+      const filterType = schemaIntrospection.types.find(
+        type => type.name === `${name}Filter`
+      ) as IntrospectionInputObjectType;
+      expect(conditionType.name).toEqual("LCondition")
+      expect(filterType.name).toEqual("LFilter")
     });
   });
 
